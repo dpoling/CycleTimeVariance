@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CycleTimeVariance</title>
+
+    <script type="text/javascript" src="https://rally1.rallydev.com/apps/2.1/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function () {
+                Ext.define("CycleTimeVariance",{extend:"Rally.app.App",componentCls:"app",launch:function(){Ext.create("Rally.data.wsapi.Store",{model:"userstory",autoLoad:!0,listeners:{load:this._onDataLoaded,scope:this},fetch:["FormattedID","Name","ScheduleState","Tasks","Defects"]})},_onDataLoaded:function(store,data){var records=_.map(data,function(record){return Ext.apply({TaskCount:record.get("Tasks").Count},record.getData())});this.add({xtype:"rallygrid",showPagingToolbar:!1,showRowActionsColumn:!1,editable:!1,store:Ext.create("Rally.data.custom.Store",{data:records}),columnCfgs:[{xtype:"templatecolumn",text:"ID",dataIndex:"FormattedID",width:100,tpl:Ext.create("Rally.ui.renderer.template.FormattedIDTemplate")},{text:"Name",dataIndex:"Name",flex:1},{text:"Schedule State",dataIndex:"ScheduleState"},{text:"# of Tasks",dataIndex:"TaskCount"},{text:"# of Defects",dataIndex:"Defects",renderer:function(value){return value.Count}}]})}});
+
+            Rally.launchApp('CustomApp', {
+                name:"CycleTimeVariance",
+	            parentRepos:""
+            });
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+</body>
+</html>
